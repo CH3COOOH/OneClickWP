@@ -32,7 +32,9 @@ volumes:
     db_data: {}
 EOF
 
-dnf install -y podman-compose
-systemctl enable podman
-systemctl start podman
-podman-compose -f ./docker-compose.wp.yml up -d
+dnf install -y dnf-utils device-mapper-persistent-data lvm2
+dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+dnf install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+systemctl start docker
+systemctl enable docker
+docker compose -f ./docker-compose.wp.yml up -d
